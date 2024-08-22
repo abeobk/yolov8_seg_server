@@ -105,11 +105,8 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
                                     # Update the total number of bytes read so far
                                     bytes_read += num_received
                                 img = cv2.imdecode(np.frombuffer(buf,dtype=np.uint8), cv2.IMREAD_COLOR)
-                                send_ok(con);
-
                                 if img is None:
                                     raise Exception("Invalid input image (img == None)")
-
                                 min_score = cmd["min_score"]
 
                                 send_ok(con)
