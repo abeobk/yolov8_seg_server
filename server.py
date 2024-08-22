@@ -91,7 +91,7 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
                         if jstr:
                             print(">"+jstr)
                             cmd = json.loads(jstr)
-                            if(cmd["name"]=="set_img"):
+                            if(cmd["name"]=="predict"):
                                 imgsz = cmd["size"]
                                 buf = bytearray(imgsz)
                                 # send OK, start receiving
@@ -106,7 +106,7 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
                                     bytes_read += num_received
                                 img = cv2.imdecode(np.frombuffer(buf,dtype=np.uint8), cv2.IMREAD_COLOR)
                                 send_ok(con);
-                            elif(cmd["name"]=="predict"):
+
                                 if img is None:
                                     raise Exception("Invalid input image (img == None)")
 
