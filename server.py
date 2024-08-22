@@ -151,7 +151,7 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
                                     ji["Class"] = int(float(cls[i]))
                                     ji["Length"] = peri
                                     ji["Area"] = area
-                                    ji["Confident"] = float(confs[i])
+                                    ji["Confident"] = round(float(confs[i]),2)
                                     ji["Contour"]=contour
                                     res_id+=1
                                     
