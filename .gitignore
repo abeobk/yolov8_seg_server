@@ -1,0 +1,6 @@
+datasets/
+models/
+runs/
+*.pt
+*.onnx
+*.yaml
