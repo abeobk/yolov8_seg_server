@@ -14,7 +14,7 @@ from ultralytics import YOLO
 
 HOST=""
 PORT=44500
-model_file = './models/bolt1_gray.pt'
+model_file = './models/bolt3_gray.pt'
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -114,6 +114,7 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
                                 tt.tic("Inferencing");
                                 results = model(img, device = device);
                                 tt.toc();
+                                send_ok(con);
                                 #collect all results
                                 res = results[0]
                                 # no result
