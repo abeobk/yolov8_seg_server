@@ -131,19 +131,29 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
                                 cls = res.boxes.cpu().cls.numpy() #result count
                                 confs = res.boxes.cpu().conf.numpy()
                                 jmask = jres["Masks"] = [] 
+                                res_id = 0
                                 for i,mask in enumerate(res.masks):
                                     if confs[i] < min_score:
-                                        continue
+                                        break;
+
                                     mask = np.squeeze(mask.data.cpu())
                                     contours, _ = cv2.findContours(mask.numpy().astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                                     contour = contours[0]
                                     peri = cv2.arcLength(contour, True)
-                                    contour = cv2.approxPolyDP(contour, 0.01 * peri, True)
+                                    area = cv2.contourArea(contour)
+                                    contour = np.squeeze(cv2.approxPolyDP(contour, 0.01 * peri, True)).tolist()
+
+                                    if len(contour) < 3:
+                                        continue
+
                                     jmask.append({})
-                                    ji = jmask[i]
+                                    ji = jmask[res_id]
                                     ji["Class"] = int(float(cls[i]))
+                                    ji["Length"] = peri
+                                    ji["Area"] = area
                                     ji["Confident"] = float(confs[i])
-                                    ji["Contour"]=np.squeeze(contour).tolist()
+                                    ji["Contour"]=contour
+                                    res_id+=1
                                     
                                 con.sendall((json.dumps(jres,indent=None)+'\n').encode())
                                 send_ok(con)
