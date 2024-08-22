@@ -125,12 +125,12 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
                                 labels = boxes.cls
                                 # result json
                                 jres={}
-                                jres["names"] = res.names # classes
-                                jres["orig_shape"]=res.masks.orig_shape
-                                jres["mask_shape"]=(res.masks.shape[1],res.masks.shape[2])
+                                jres["Names"] = res.names # classes
+                                jres["InputShape"]=res.masks.orig_shape
+                                jres["OutputShape"]=(res.masks.shape[1],res.masks.shape[2])
                                 cls = res.boxes.cpu().cls.numpy() #result count
                                 confs = res.boxes.cpu().conf.numpy()
-                                jmask = jres["mask"] = [] 
+                                jmask = jres["Masks"] = [] 
                                 for i,mask in enumerate(res.masks):
                                     if confs[i] < min_score:
                                         continue
@@ -141,9 +141,9 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
                                     contour = cv2.approxPolyDP(contour, 0.01 * peri, True)
                                     jmask.append({})
                                     ji = jmask[i]
-                                    ji["cls"] = int(float(cls[i]))
-                                    ji["conf"] = float(confs[i])
-                                    ji["contour"]=np.squeeze(contour).tolist()
+                                    ji["Class"] = int(float(cls[i]))
+                                    ji["Confident"] = float(confs[i])
+                                    ji["Contour"]=np.squeeze(contour).tolist()
                                     
                                 con.sendall((json.dumps(jres,indent=None)+'\n').encode())
                                 send_ok(con)
