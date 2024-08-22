@@ -13,7 +13,7 @@ import torch
 from ultralytics import YOLO
 
 HOST=""
-PORT=8727
+PORT=44500
 model_file = './models/bolt1_gray.pt'
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
