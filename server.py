@@ -140,6 +140,10 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
                                     mask = np.squeeze(mask.data.cpu())
                                     contours, _ = cv2.findContours(mask.numpy().astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                                     contour = contours[0]
+                                    
+                                    if len(contours) == 0:
+                                        continue
+                                    
                                     peri = cv2.arcLength(contour, True)
                                     area = cv2.contourArea(contour)
                                     contour = np.squeeze(cv2.approxPolyDP(contour, 0.01 * peri, True)).tolist()
