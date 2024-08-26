@@ -91,8 +91,8 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
                         if jstr:
                             print(">"+jstr)
                             cmd = json.loads(jstr)
-                            if(cmd["name"]=="type"):
-                                con.sendall("{\"Type\"=\"YOLOV8_SEG\"}\n".encode())
+                            if(cmd["name"]=="info"):
+                                con.sendall("{\"Type\"=\"YOLOV8_SEG\",\"Status\":\"Running\"}\n".encode())
                                 send_ok(con);
                             elif(cmd["name"]=="predict"):
                                 imgsz = cmd["size"]
