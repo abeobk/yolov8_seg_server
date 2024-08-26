@@ -92,8 +92,8 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
                             print(">"+jstr)
                             cmd = json.loads(jstr)
                             if(cmd["name"]=="info"):
-                                con.sendall("{\"Type\"=\"YOLOV8_SEG\",\"Status\":\"Running\"}\n".encode())
                                 send_ok(con);
+                                con.sendall("{\"Type\"=\"YOLOV8_SEG\",\"Status\":\"Running\"}\n".encode())
                             elif(cmd["name"]=="predict"):
                                 imgsz = cmd["size"]
                                 buf = bytearray(imgsz)
