@@ -91,7 +91,10 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
                         if jstr:
                             print(">"+jstr)
                             cmd = json.loads(jstr)
-                            if(cmd["name"]=="predict"):
+                            if(cmd["name"]=="type"):
+                                con.sendall("{\"Type\"=\"YOLOV8_SEG\"}\n".encode())
+                                send_ok(con);
+                            elif(cmd["name"]=="predict"):
                                 imgsz = cmd["size"]
                                 buf = bytearray(imgsz)
                                 # send OK, start receiving
@@ -112,7 +115,7 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
                                 send_ok(con)
                                 # process image
                                 tt.tic("Inferencing");
-                                results = model(img, device = device);
+                                results = model(img, device = 'cpu');
                                 tt.toc();
                                 send_ok(con);
                                 #collect all results
